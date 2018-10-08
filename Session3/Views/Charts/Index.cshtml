@@ -1,0 +1,37 @@
+﻿@model Session3.Controllers.ChartViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Amcharts</h2>
+
+<div id="carta" style="width: 640px; height: 400px;"></div>
+
+@section scripts
+{
+    <script src="~/Scripts/amcharts/amcharts.js"></script>
+    <script src="~/Scripts/amcharts/serial.js"></script>
+    
+    <script>
+        var chartData = @Html.Raw(Json.Encode(Model.CountryVisitses));
+
+        AmCharts.makeChart( "carta", {
+            "type": "serial",
+            "dataProvider": chartData,
+            "categoryField": "country",
+            "categoryAxis": {
+                "autoGridCount": false,
+                "gridCount": chartData.length,
+                "gridPosition": "start",
+                "labelRotation": 90
+            },
+            "graphs": [ {
+                "valueField": "visits",
+                "type": "column",
+                "fillAlphas": 0.8
+            }],
+            "angle": 30,
+            "depth3D": 15
+        } );
+    </script>
+}
